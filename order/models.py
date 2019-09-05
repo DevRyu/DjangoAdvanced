@@ -11,6 +11,10 @@ class Order(models.Model):
     register_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록날짜')
 
+    def __str__(self):
+        return str(self.user) + ' ' + str(self.product)
+# 주문도 문자열로 잘표현하기 위해서 이렇게 한거임
+
     class Meta:
         db_table = 'ryu_order'
         verbose_name = '주문'

@@ -9,6 +9,10 @@ class Product(models.Model):
     register_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록날짜')
 
+    def __str__(self):
+        return self.name
+# 어드민에서 문자열을 반환해줘야 http://127.0.0.1:8000/admin/order/order/ 에서 이름 잘나옴
+
     class Meta:
         db_table = 'ryu_product'
         verbose_name = '상품'
