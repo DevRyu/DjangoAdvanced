@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from user.views import index, RegisterView, LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index),
+    # 클래스 path를 가져오는경우 as_view()로 해줘야함
+    path('register/', RegisterView.as_view()),
+    path('login/', LoginView.as_view()),
 ]
