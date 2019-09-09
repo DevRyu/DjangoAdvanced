@@ -1,0 +1,27 @@
+{% extends "base.html"%} {% load humanize%}
+<!-- {% load humanize%} 부트스트랩 인간처럼 보이게 할수 있음 settings.py에서 앱등록해줘야함 -->
+{% block contents %}
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="card" style="width: 100%;">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.name }}</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">가격: {{ product.price | intcomma }}원</li>
+        <li class="list-group-item">
+          등록날짜: {{ product.register_date | date:"Y-m-d H:i" }}
+        </li>
+        <li class="list-group-item">{{ product.description | safe }}</li>
+        <!-- 그냥하면 일반값이 나와서 내용을 태그를 보여주는게아닌  태그 자체로 사용된걸 나오게할려면 safe쓰자 -->
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <a href="/product/">목록보기</a>
+  </div>
+</div>
+<!-- 목록보기 는 누르면 product로 돌아가게 만들었다. -->
+{% endblock %}

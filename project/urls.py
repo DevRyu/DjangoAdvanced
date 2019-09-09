@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from user.views import index, RegisterView, LoginView
-from product.views import ProductList, ProductCreate
+from product.views import ProductList, ProductCreate, ProductDetail
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
@@ -24,6 +24,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
     path('product/', ProductList.as_view()),
+    path('product/<int:pk>/', ProductDetail.as_view()),
+    # 디테일의 번호를 넣기위해서  <int:pk>로해줌
     path('product/create/', ProductCreate.as_view()),
-
 ]

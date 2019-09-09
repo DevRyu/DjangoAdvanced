@@ -18,7 +18,7 @@ class ProductCreate(FormView):
     success_url = '/product/'
 
 
-class ProductCreate(DetailView):
+class ProductDetail(DetailView):
     template_name = 'product_detail.html'
     # 쿼리셋을 지정해서 필터를사용하면 조건에 맞는 프로젝트들만 가져오지만 전체다가져올거임.
     queryset = Product.objects.all()
