@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView  # 디테일뷰를 사용한다.
 from django.views.generic.edit import FormView  # 폼뷰를 가져온다
 from .models import Product
 from .forms import RegisterForm
@@ -16,3 +16,10 @@ class ProductCreate(FormView):
     template_name = 'register_product.html'
     form_class = RegisterForm
     success_url = '/product/'
+
+
+class ProductCreate(DetailView):
+    template_name = 'product_detail.html'
+    # 쿼리셋을 지정해서 필터를사용하면 조건에 맞는 프로젝트들만 가져오지만 전체다가져올거임.
+    queryset = Product.objects.all()
+    context_object_name = 'product'  # 변수명을 지정가능함

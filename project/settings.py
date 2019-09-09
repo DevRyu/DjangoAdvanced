@@ -59,7 +59,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # 모든 html을 다 찾기때문에  base.html이 중복되어 있엇음 하나 삭제해도됨
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
