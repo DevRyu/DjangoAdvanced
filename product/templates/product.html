@@ -1,0 +1,33 @@
+{% extends "base.html"%} {% load humanize%}
+<!-- {% load humanize%} 부트스트랩 인간처럼 보이게 할수 있음 settings.py에서 앱등록해줘야함 -->
+{% block contents %}
+<div class="row mt-5">
+  <div class="col-12">
+    <table class="table table-light">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">상품명</th>
+          <th scope="col">가격</th>
+          <th scope="col">등록날자</th>
+        </tr>
+      </thead>
+      <tbody class="text-dark">
+        {% for product in product_list %}
+        <!-- 포문에 기본 변수가 오브젝트리스트, 싫으면  views에서 context_object_name 설정해야함 -->
+        <tr>
+          <th scope="row">{{ product.id }}</th>
+          <th scope="row">{{ product.name }}</th>
+          <th scope="row">{{ product.price |intcomma }}원</th>
+          <th scope="row">
+            {{ product.register_date | date:"Y-m-d H:i" }}
+          </th>
+          <!-- date|date:"y-m-d" 공백있으면 에러난다 노트패드로 수정-->
+          <!-- int콤마는 천자리당 콤마 -->
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
