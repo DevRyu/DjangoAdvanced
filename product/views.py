@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView  # 디테일뷰를 사용�
 from django.views.generic.edit import FormView  # 폼뷰를 가져온다
 from .models import Product
 from .forms import RegisterForm
+from order.forms import RegisterForm as OrderForm
 
 
 class ProductList(ListView):
@@ -23,3 +24,9 @@ class ProductDetail(DetailView):
     # 쿼리셋을 지정해서 필터를사용하면 조건에 맞는 프로젝트들만 가져오지만 전체다가져올거임.
     queryset = Product.objects.all()
     context_object_name = 'product'  # 변수명을 지정가능함
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = OrderForm()
+        return context
+        # 주문버튼을 누르면 데이터를 받아서  context에 넘겨주는 함수

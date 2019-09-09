@@ -7,7 +7,7 @@ class Order(models.Model):
 # 유저앱 안에 있는 models.py에 유저클래스를 넣어주겟다.
     product = models.ForeignKey(
         'product.Product', on_delete=models.CASCADE, verbose_name='상품')
-    quantitu = models.IntegerField(verbose_name='수량')
+    quantity = models.IntegerField(verbose_name='수량')
     register_date = models.DateTimeField(
         auto_now_add=True, verbose_name='등록날짜')
 
