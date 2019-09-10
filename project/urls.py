@@ -30,4 +30,5 @@ urlpatterns = [
     path('product/create/', ProductCreate.as_view()),
     path('order/create/', OrderCreate.as_view()),
 
+
 ]

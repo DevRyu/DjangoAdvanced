@@ -2,6 +2,7 @@ from django import forms
 from .models import Order
 from product.models import Product
 from user.models import User
+from django.db import transaction
 
 
 class RegisterForm(forms.Form):
@@ -12,14 +13,13 @@ class RegisterForm(forms.Form):
 
     quantity = forms.IntegerField(
         error_messages={
-            'required': '수량을 입력해주세요'
+            'required': '수량을 입력해주세요.'
         }, label='수량'
     )
     product = forms.IntegerField(
         error_messages={
-            'required': '상품정보를 입력해주세요'
-        },
-        label='상품', widget=forms.HiddenInput  # 사용자에게 보여지지 않게
+            'required': '상품설명을 입력해주세요.'
+        }, label='상품설명', widget=forms.HiddenInput
     )
 
     def clean(self):
@@ -33,13 +33,20 @@ class RegisterForm(forms.Form):
         # 유저는 세션에서 가져온다.
 
         if quantity and product and user:
-            order = Order(
-                quantity=quantity,
-                product=Product.objects.get(pk=product),
-                user=User.objects.get(email=user)
-            )
-            order.save()
-        # 값이 들어온지 개수, 프로덕트(pk=id일때), 유저(이메일이 유저인경우)
+            with transaction.atomic():
+                # 트렌젝션 어토믹 함수 사용할거임(전체 성공시 성공,하나라도 실패시 실패)
+                prod = Product.objects.get(pk=product)
+                # prod를 불러오고
+                order = Order(
+                    quantity=quantity,
+                    product=prod,
+                    user=User.objects.get(email=user)
+                )
+                order.save()
+                prod.stock -= quantity
+                # 주문이 끝나면 개수가 한개줄고
+                prod.save()
+                # 저장        # 값이 들어온지 개수, 프로덕트(pk=id일때), 유저(이메일이 유저인경우)
         # 세션의 이메일이 있으니까 확인하고  확인하고 저장
         else:  # 값이 없을때 에러 발생
             self.product = product
