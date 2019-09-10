@@ -27,6 +27,7 @@ class ProductDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = OrderForm()
+        # order\forms.py 폼을 생성할때 리퀘스를 전달해줌
+        context['form'] = OrderForm(self.request)
         return context
         # 주문버튼을 누르면 데이터를 받아서  context에 넘겨주는 함수
