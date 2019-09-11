@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView  # 디테일뷰를 사용한다.
 from django.views.generic.edit import FormView  # 폼뷰를 가져온다
+from django.utils.decorators import method_decorator
+from user.decorators import admin_required
 from .models import Product
 from .forms import RegisterForm
 from order.forms import RegisterForm as OrderForm
@@ -13,6 +15,8 @@ class ProductList(ListView):
 # 포문에 기본 변수가 오브젝트리스트, 싫으면  views에서 context_object_name 설정해야함
 
 
+@method_decorator(admin_required, name='dispatch')
+# 상품등록은 어드민데코레이터를 통해서만!
 class ProductCreate(FormView):
     template_name = 'register_product.html'
     form_class = RegisterForm
