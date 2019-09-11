@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import check_password
 from .models import User
 
 
@@ -33,13 +33,8 @@ class RegisterForm(forms.Form):
             if password != re_password:
                 self.add_error('password', '비밀번호가 서로 다릅니다.')
                 self.add_error('re_password', '비밀번호가 서로 다릅니다.')
-            else:
-                user = User(
-                    email=email,
-                    password=make_password(password)
-                )
-                user.save()
-            # 비밀번호가 같다면 저장하라
+
+# 5-1 클린코드는 사실 유효성 검사를 위해 있으므로 필요없는거지움
 
 
 class LoginForm(forms.Form):
@@ -71,5 +66,3 @@ class LoginForm(forms.Form):
 
             if not check_password(password, user.password):
                 self.add_error('password', '비밀번호를 틀렸습니다')
-            else:
-                self.email = user.email
