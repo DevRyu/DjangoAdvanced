@@ -30,6 +30,21 @@ class ProductListAPI(generics.GenericAPIView, mixins.ListModelMixin):
         # 믹스인안에 내장함수있음
 
 
+class ProductDetailAPI(generics.GenericAPIView, mixins.RetrieveModelMixin):
+    serializer_class = ProductSerializer
+    # RetrieveModelMixin 상세보기를 위한 믹스인
+
+    def get_queryset(self):
+        return Product.objects.all().order_by('id')
+    # 오버라이딩해서 쿼리셋 지정
+    # 모든 오브젝트를 프로덕트 받음
+    # url에서 pk값을 연결해줘야 (겟쿼리셋의 id와 같은) 에러가 안남
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    # 믹스인안에 개발이 다되어 있어 get요청이 왓을때 mixin이 만들어준함수를 호출해주기만 하면 된다.
+
+
 class ProductList(ListView):
     model = Product
     template_name = 'product.html'
