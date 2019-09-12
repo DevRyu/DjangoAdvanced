@@ -2,10 +2,32 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView  # 디테일뷰를 사용한다.
 from django.views.generic.edit import FormView  # 폼뷰를 가져온다
 from django.utils.decorators import method_decorator
+from rest_framework import generics
+from rest_framework import mixins
+
+
 from user.decorators import admin_required
 from .models import Product
 from .forms import RegisterForm
+from .serializers import ProductSerializer
 from order.forms import RegisterForm as OrderForm
+
+
+class ProductListAPI(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = ProductSerializer
+    # 시리얼라이저와 쿼리셋을 지정해서 만듬
+
+    def get_queryset(self):
+        return Product.objects.all().order_by('id')
+    # 오버라이딩해서 쿼리셋 지정
+    # 모든 오브젝트를 프로덕트 받음
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+        # 제너릭API뷰로로 프로덕트리스트를 만들었다.
+        # 믹스인은 컴포넌트, 겟에서는 리스트API 와 포스트에서는 생성API를 만들고 싶다면?
+        # 믹스인안에 내장함수있음
 
 
 class ProductList(ListView):
