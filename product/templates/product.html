@@ -1,5 +1,27 @@
-{% extends "base.html"%} {% load humanize%}
+{% extends "base.html" %} 
+{% load humanize %}
 <!-- {% load humanize%} 부트스트랩 인간처럼 보이게 할수 있음 settings.py에서 앱등록해줘야함 -->
+{% block header %}
+<script>
+  function product_detail(id) {
+    // 아이디에 대한 함수 지정
+    $.ajax({
+      url: "/api/product/" + id,
+      success: function (result) {
+        $("#product-" + id).popover({
+          html: true,
+          content: result.name + "<br/>" + result.price
+        }).popover('show');
+      }
+    });
+  }
+
+  function product_leave(id) {
+    $("#product-" + id).popover('hide');
+  }
+  $(document).ready(function () {});
+</script>
+{% endblock %}
 {% block contents %}
 <div class="row mt-5">
   <div class="col-12">
@@ -18,9 +40,9 @@
         <tr>
           <th scope="row">{{ product.id }}</th>
           <th scope="row">
-            <a href="/product/{{ product.id }}">{{ product.name }}</a>
+            <th><a id="product-{{ product.id }}" onmouseenter="product_detail({{ product.id }});" onmouseleave="product_leave({{ product.id }});" href="/product/{{ product.id }}">{{ product.name }}</a>
           </th>
-          <!-- a href="/product/product.id" 하이퍼링크로 게시글을 클릭하게 한다.{{ product.id }} 띄어쓰는 간격중요하다. -->
+          <!-- href가 아닌 아이디로 지정하여 ajax로 핸들링 -->
           <th scope="row">{{ product.price | intcomma }}원</th>
           <th scope="row">
             {{ product.register_date | date:"Y-m-d H:i" }}
