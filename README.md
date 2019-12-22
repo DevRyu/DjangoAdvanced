@@ -1,4 +1,4 @@
-# DjangoAdvanced 장고로 쇼핑몰만들기
+# Toy_ShoppingBoard_Django 장고로 쇼핑몰만들기
 2세대 mtv형으로 만들었습니다
 주문 기능  
 회원가입 기능  
